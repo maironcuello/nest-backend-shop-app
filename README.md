@@ -19,7 +19,9 @@
 __Backend-Shop-App__
 
 ## 1. Clone The Proyect
-
+```
+https://github.com/maironcuello/nest-backend-shop-app.git
+```
 ## 2. Install
 ```
 $ yarn install
