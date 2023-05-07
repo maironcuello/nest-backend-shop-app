@@ -38,5 +38,10 @@ export class CreateProductDto {
   sizes: string[];
 
   @IsIn(['men', 'wonan', 'kid', 'unisex'])
-  gerder: string;
+  gender: string;
+
+  @IsString({ each: true })
+  @IsArray()
+  @IsOptional()
+  tags: string[];
 }
