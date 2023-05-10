@@ -27,33 +27,19 @@ https://github.com/maironcuello/nest-backend-shop-app.git
 $ yarn install
 ```
 
-## 3. Clane file
+## 3. Clone file
 ```
 .env.example to .env
 ```
-## 4. Clane file
+## 4. Database PostgreSQL container up
 ```
 docker-compose up -d
 ``` 
 ## 5. Run project   
 ``` 
-$ yarn run start:dev
+$ yarn start:dev
 ```
-
-## production mode
+## 6. Charger Seed Data
 ```
-$ yarn run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
+http://localhost:3000/api/seed
 ```
