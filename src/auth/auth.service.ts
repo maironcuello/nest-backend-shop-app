@@ -4,6 +4,7 @@ import {
   InternalServerErrorException,
   UnauthorizedException,
 } from '@nestjs/common';
+
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
@@ -33,8 +34,6 @@ export class AuthService {
 
       await this.userRepository.save(user);
 
-      // TODO return JWT token
-
       return {
         uid: user.id,
         email: user.email,
@@ -57,15 +56,15 @@ export class AuthService {
 
     const user = await this.userRepository.findOne({
       where: { email },
-      select: { email: true, password: true },
+      select: { id: true, email: true, password: true },
     });
 
     if (!user) throw new UnauthorizedException('Credentials not found');
+
     if (!bcrypt.compareSync(password, user.password))
       throw new UnauthorizedException('Credentials not found');
 
-    return { ...user, token: this.getJwtoken({ email: user.email }) };
-    // TODO Return JWT token
+    return { ...user, token: this.getJwtoken({ id: user.id }) };
   }
 
   private handleDBErrors(error: ErrorDbPostgres): never {
