@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  Headers,
   Injectable,
   InternalServerErrorException,
   UnauthorizedException,
@@ -14,6 +15,8 @@ import { User } from './entities/user.entity';
 import { ErrorDbPostgres } from 'src/products/entities';
 import { CreateUserDto, LoginUserDto } from './dto';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
+import { use } from 'passport';
+import { fileNamer } from '../files/helpers/fileNemar.helper';
 
 @Injectable()
 export class AuthService {
@@ -49,6 +52,13 @@ export class AuthService {
   private getJwtoken(payload: JwtPayload) {
     const token = this.jwtService.sign(payload);
     return token;
+  }
+
+  async checkAuthStatus(user: User) {
+    return {
+      ...user,
+      token: this.getJwtoken({ id: user.id }),
+    };
   }
 
   async login(loginUserDto: LoginUserDto) {
