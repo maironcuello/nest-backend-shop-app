@@ -15,6 +15,7 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { ErrorDbPostgres } from './entities/errorDBPostgres';
 import { PaginationDto } from '../common/dtos/pagination.dto';
 import { Product, ProductImage } from './entities';
+import { User } from '../auth/entities/user.entity';
 
 @Injectable()
 export class ProductsService {
@@ -28,11 +29,12 @@ export class ProductsService {
     private readonly dataDource: DataSource,
   ) {}
 
-  async create(createProductDto: CreateProductDto) {
+  async create(createProductDto: CreateProductDto, user: User) {
     try {
       const { images = [], ...productDetails } = createProductDto;
       const product = this.productRepository.create({
         ...productDetails,
+        user,
         images: images.map((url) =>
           this.productImagesRepository.create({ url }),
         ),
@@ -87,7 +89,7 @@ export class ProductsService {
     return product;
   }
 
-  async update(id: string, updateProductDto: UpdateProductDto) {
+  async update(id: string, updateProductDto: UpdateProductDto, user: User) {
     // OPTION_1
     // const productToUpdate = await this.findOne(id);
     // const newProduct = { ...productToUpdate, ...updateProductDto };
@@ -123,6 +125,7 @@ export class ProductsService {
         );
       }
 
+      product.user = user;
       await queryRunner.manager.save(product);
       // await this.productRepository.save(product);
       await queryRunner.commitTransaction();
