@@ -3,6 +3,8 @@
 /node_modules
 /postgres
 /static
+/welcome-to-docker
+/.devcontainer
 .env
 # Logs
 logs
